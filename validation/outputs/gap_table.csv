@@ -1,0 +1,59 @@
+area,quarter,metier_group,total_landings,coverage,Status,Action_Required
+27.9.a,2,PS_SPF,11789.92869905429,1.902687794103413,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.8.c,3,OTB_DEF,11713.634038679302,5.359932385032685,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,4,OTB_DEF,11312.908727803733,7.3479562372345235,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.8.c,2,OTB_DEF,11272.627487098798,6.9787146661032935,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.7.j,4,OTB_DEF,11183.463239665143,8.029194447500117,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.8.c,2,PS_SPF,10646.572049665265,4.719071113729338,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.7.j,4,PS_SPF,9821.969775028992,0,✗ NO Discard Data,❌ BORROW: Search similar metier/quarter
+27.9.a,1,OTB_DEF,9672.785065916833,2.6672765466172894,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.7.j,1,OTB_DEF,8775.204615360126,5.151357618706088,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.8.c,2,PS_SPF,8538.545105494559,6.234606597975367,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,3,OTB_DEF,8308.148729132954,3.9715955218850354,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,4,PS_SPF,8189.230307692196,8.766021160354615,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.7.j,2,PS_SPF,8126.787584500853,0,✗ NO Discard Data,❌ BORROW: Search similar metier/quarter
+27.7.j,1,PS_SPF,7260.392253615428,0,✗ NO Discard Data,❌ BORROW: Search similar metier/quarter
+27.9.a,1,PS_SPF,6644.069615076296,2.726068832115427,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,2,OTB_DEF,6218.443036463577,2.1169458048822967,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.8.c,3,OTB_DEF,6167.858532140963,6.763366329117164,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.8.c,4,PS_SPF,6043.875011920463,13.832992928934695,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,2,PS_SPF,5570.449431901798,12.90524418729731,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,1,PS_SPF,5480.907514854334,4.907152479401021,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.7.j,2,OTB_DEF,5452.825190518051,2.414221113114782,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,4,PS_SPF,4840.632197193336,7.273487911506178,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.8.c,1,PS_SPF,4500.358655881137,25.14587450507011,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,2,OTB_DEF,4198.635555342771,0.23817261270211898,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.8.c,4,OTB_DEF,3489.4026105338708,14.069629317757325,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,1,OTB_DEF,2966.655057272874,3.851290516446953,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,4,OTB_DEF,2870.601388346404,24.553749073755238,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,3,OTB_DEF,2706.8408817937598,11.002539752794545,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.8.c,1,OTB_DEF,1849.346976110246,21.0806017287514,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.8.c,1,OTB_DEF,1793.7874064873904,37.55696571193989,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.7.j,3,PS_SPF,1200,0,✗ NO Discard Data,❌ BORROW: Search similar metier/quarter
+27.8.c,2,GNS_DEF,286.0592265659943,0,✗ NO Discard Data,❌ BORROW: Search similar metier/quarter
+27.8.c,4,GNS_DEF,262.7929137926549,33.145538769768564,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,4,GTR_DEF,245.2706431504339,3.851515777577161,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.7.j,1,GTR_DEF,221.92244423786178,7.367888622565107,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.7.j,4,GTR_DEF,215.2867274126038,11.879660219795934,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,1,GTR_DEF,213.64140458172187,31.561677361490716,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.8.c,1,GTR_DEF,210.15905146487057,35.70474682393267,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.8.c,4,GTR_DEF,163.73425221536309,7.777520181093653,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,4,GNS_DEF,150.65898752538487,10.6905340838807,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,2,GTR_DEF,149.96580249862745,21.577439632324957,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.8.c,3,GTR_DEF,147.47071586316451,19.60551546498305,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.9.a,2,GNS_DEF,100.63633137149736,0,✗ NO Discard Data,❌ BORROW: Search similar metier/quarter
+27.8.c,2,GTR_DEF,30.530869960784912,10.171714379650073,⚠️ WARNING: < 50  Coverage,⚠️ POOL: Group with adjacent quarters
+27.7.j,3,OTB_DEF,0,0,✗ Discard Only: No Landings,❌ BORROW: Search similar metier/quarter
+27.7.j,1,GNS_DEF,0,0,✗ No Activity,❌ BORROW: Search similar metier/quarter
+27.7.j,1,OTB_DEF,0,0,✗ No Activity,❌ BORROW: Search similar metier/quarter
+27.7.j,1,PS_SPF,0,0,✗ No Activity,❌ BORROW: Search similar metier/quarter
+27.9.a,1,GNS_DEF,0,0,✗ No Activity,❌ BORROW: Search similar metier/quarter
+27.7.j,2,GNS_DEF,0,0,✗ No Activity,❌ BORROW: Search similar metier/quarter
+27.7.j,2,OTB_DEF,0,0,✗ No Activity,❌ BORROW: Search similar metier/quarter
+27.7.j,2,PS_SPF,0,0,✗ No Activity,❌ BORROW: Search similar metier/quarter
+27.7.j,3,GNS_DEF,0,0,✗ No Activity,❌ BORROW: Search similar metier/quarter
+27.7.j,3,OTB_DEF,0,0,✗ No Activity,❌ BORROW: Search similar metier/quarter
+27.7.j,3,PS_SPF,0,0,✗ No Activity,❌ BORROW: Search similar metier/quarter
+27.7.j,4,GNS_DEF,0,0,✗ No Activity,❌ BORROW: Search similar metier/quarter
+27.7.j,4,OTB_DEF,0,0,✗ No Activity,❌ BORROW: Search similar metier/quarter
+27.7.j,4,PS_SPF,0,0,✗ No Activity,❌ BORROW: Search similar metier/quarter

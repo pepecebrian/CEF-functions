@@ -25,8 +25,8 @@
 # ------------------------------------------------------------------------------
 
 build_alk_from_H7_H5 <- function(
-    path_H7,
-    path_H5,
+    path_H7= 'H7_2024_ALL.zip',
+    path_H5= 'H5_AZTI.zip',
     species = c("PIL", "MAC"),
     round_half_species = c("PIL", "ANE")
 ) {
@@ -73,7 +73,7 @@ build_alk_from_H7_H5 <- function(
              year = year(date)) %>%
       select(year, quarter, LEid, VDid, SSid, date,
              vessel = LEencrVessCode,
-             LEmetier5, LEmetier6, LEgear,
+             LEmetier5, LEmetier6, metier_group=LEgear,
              area = LEarea,
              locode = LElocode) %>%
       distinct()
@@ -123,7 +123,7 @@ build_alk_from_H7_H5 <- function(
              year = year(date)) %>%
       select(LEid, VDid,  date, quarter, year,
              barco = LEencrVessCode,
-             LEmetier5, LEmetier6, LEgear,
+             LEmetier5, LEmetier6, metier_group=LEgear,
              area = LEarea,
              locode = LElocode) %>%
       distinct()
@@ -217,7 +217,7 @@ build_alk_from_H7_H5 <- function(
   # --------------------------------------------------------------------------
   add_counts <- function(df) {
     df %>%
-      group_by(area, quarter, cod.FAO) %>%
+      group_by(area, quarter,metier_group, cod.FAO) %>%
       mutate(
         num_otholits = n_distinct(BVfishId),
         num_samples = n_distinct(SAid)
@@ -239,13 +239,13 @@ build_alk_from_H7_H5 <- function(
   # --------------------------------------------------------------------------
   dominio_totales <- combined %>%
     filter(!is.na(Age), !is.na(length)) %>%
-    group_by(area, cod.FAO, quarter, SAcommCatScl) %>%
+    group_by(area, cod.FAO, quarter,metier_group, SAcommCatScl) %>%
     summarise(
       num_samples_lab = max(num_samples, na.rm = TRUE),
       otholits_lab = max(num_otholits, na.rm = TRUE),
       .groups = "drop"
     ) %>%
-    group_by(area, cod.FAO, quarter) %>%
+    group_by(area, cod.FAO, quarter,metier_group) %>%
     summarise(
       num_samples = sum(num_samples_lab, na.rm = TRUE),
       otholits = sum(otholits_lab, na.rm = TRUE),
@@ -254,10 +254,10 @@ build_alk_from_H7_H5 <- function(
   
   ALK_grouped <- combined %>%
     filter(!is.na(Age), !is.na(length)) %>%
-    group_by(area, cod.FAO, quarter, length, Age) %>%
+    group_by(area, cod.FAO, quarter,metier_group, length, Age) %>%
     summarise(n = n(), .groups = "drop") %>%
-    left_join(dominio_totales, by = c("area", "cod.FAO", "quarter")) %>%
-    group_by(area, cod.FAO, quarter, length) %>%
+    left_join(dominio_totales, by = c("area", "cod.FAO", "quarter", "metier_group")) %>%
+    group_by(area, cod.FAO, metier_group,quarter, length) %>%
     mutate(prop = n / sum(n)) %>%
     ungroup()
   
@@ -280,7 +280,8 @@ result <- build_alk_from_H7_H5(
 
 ALK_funcion <- result$ALK_grouped
 
-
+getwd()
+fwrite(ALK_funcion, "ALK_PIL_MAC.csv")
 headtail(H7_wide)
 H5_wide %>% filter(area=='27.8.c.e' , quarter==1 & cod.FAO=="MAC") %>% 
   group_by(area, quarter, cod.FAO, SAcommCatScl) %>% 
