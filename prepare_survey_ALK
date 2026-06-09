@@ -1,0 +1,123 @@
+prepare_survey_PIL <- function(
+    path_Survey_csv,
+    species = c("PIL"),
+    round_half_species = c("PIL", "ANE")
+) {
+  
+  library(dplyr)
+  library(readr)
+  library(stringr)
+  library(lubridate)
+  library(data.table)
+  
+  parse_fecha_es <- function(x) {
+    x %>%
+      str_to_lower() %>%
+      str_replace_all(c(
+        "ene" = "jan",
+        "abr" = "apr",
+        "ago" = "aug",
+        "dic" = "dec"
+      )) %>%
+      dmy()
+  }
+  
+  camp <- read_csv(
+    path_Survey_csv ,
+    locale = locale(encoding = "Windows-1252"),
+    show_col_types = FALSE
+  )
+  camp <- camp %>%
+    mutate(
+      cod.FAO = fao,
+      FMU = case_when(
+        ORIGEN %in% c("Subdivisión IXa-Norte") ~ "27.9.a.n",
+        ORIGEN %in% c("Subdivisión IXa-Centro Norte", "Subdivisión IXa-Centro Sur") ~ "27.9.a.c",
+        ORIGEN %in% c("Subdivisión VIIIc-Este", "Subdivisión VIIIc-Este - Este") ~ "27.8.c.e",
+        ORIGEN %in% c("Subdivisión VIIIb", "División VIIIb") ~ "27.8.b",
+        ORIGEN %in% c("Subdivisión VIIIc-Oeste", "Subdivisión VIIIc-Este - Oeste") ~ "27.8.c.w",
+        ORIGEN %in% c("Divisiones VIIbck") ~ "27.7.b",
+        TRUE ~ NA_character_
+      )
+    )
+  
+  names(camp) <- c(
+    "year", "date", "DEsampScheme", "LEid", "area", "metier", "Species_Name",
+    "PESO", "VALID", "TIPO", "BVfishId", "Lengthmm", "pesov", "sex", "codmad",
+    "mad", "Otholit", "AgeYear", "cod.FAO", "FMU"
+  )
+  
+  survey_MAC <- camp %>%
+    select(year, date, DEsampScheme, 
+           LEid, area, FMU, cod.FAO, BVfishId, Lengthmm, Otholit, AgeYear) %>%
+    filter(year==2025) %>% 
+    distinct() %>%
+    mutate(
+      year = as.numeric(year),
+      date = parse_fecha_es(date),
+      quarter = quarter(date),
+      semester = if_else(quarter %in% c(1, 2), 1, 2),
+      Lengthmm = as.numeric(Lengthmm),
+      Age = as.numeric(AgeYear),
+      length = if_else(
+        cod.FAO %in% round_half_species,
+        round((Lengthmm / 10) * 2) / 2,
+        round(Lengthmm / 10)
+      )
+    ) %>%
+    filter(
+      Otholit == "S",
+      !is.na(Age),
+      !is.na(length),
+      cod.FAO %in% species
+    ) %>% select(-quarter) %>% 
+    group_by(year, area, FMU, cod.FAO, semester) %>%
+   dplyr:: mutate(fish_id = row_number()) %>%
+    ungroup() %>%
+    dplyr::   mutate(fish_id = paste(FMU, semester, fish_id, sep = "_")) %>% 
+    as.data.frame()
+  
+  headtail (survey_MAC) 
+  
+  survey_alk <- survey_MAC %>%
+    transmute(
+      source = "SURVEY",
+      year = as.numeric(year),
+      area = case_when(
+        FMU %in% c("27.8.c.e", "27.8.c.w") ~ "27.8.c",
+        FMU %in% c("27.9.a.n", "27.9.a.c") ~ "27.9.a",
+        FMU == "27.8.b" ~ "27.8.b",
+        FMU == "27.7.b" ~ "27.7.b",
+        TRUE ~ as.character(area)
+      ),
+      FMU = as.character(FMU),
+      cod.FAO = as.character(cod.FAO),
+      semester = as.numeric(semester),
+      length = as.numeric(length),
+      Age = as.numeric(Age),
+      sample_id = as.character(LEid),
+      fish_id = as.character(fish_id)  ,
+      DEsampScheme = as.character(DEsampScheme)
+    ) %>%
+    filter(!is.na(FMU))
+  
+  survey_totales <- survey_alk %>%
+    group_by(year, area, FMU, cod.FAO,semester) %>%
+   dplyr:: summarise(
+      num_samples = n_distinct(sample_id),
+      otholits = n_distinct(fish_id),
+      .groups = "drop"
+    )
+  
+  list(
+    survey_raw = survey_MAC,
+    survey_alk = survey_alk,
+    survey_totales = survey_totales
+  )
+}
+
+fao<-"MAC"
+
+alk_survey <- prepare_survey_mac(
+  path_Survey_csv = "CAMPAÑAS_MAC_2025.csv"
+)
