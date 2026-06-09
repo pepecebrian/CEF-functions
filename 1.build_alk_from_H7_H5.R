@@ -25,7 +25,7 @@
 # ------------------------------------------------------------------------------
 
 build_alk_from_H7_H5 <- function(
-    path_H7= 'H7_2024_ALL.zip',
+    path_H7= 'H7_IEO.zip',
     path_H5= 'H5_AZTI.zip',
     species = c("PIL", "MAC"),
     round_half_species = c("PIL", "ANE")
