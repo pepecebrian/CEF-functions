@@ -1,0 +1,85 @@
+convert_length_to_age <- function(dn_length, ALK){
+
+  # columnas de estratificación
+  strata <- c("year", "FMU", "cod.FAO", "semester")
+
+  #--------------------------------------------------
+  # nearest ALK length
+  #--------------------------------------------------
+
+  alk_lengths <- ALK %>%
+    distinct(year, FMU, cod.FAO, semester, length)
+
+  dn2 <- dn_length %>%
+    rowwise() %>%
+    mutate(
+
+      length_alk = {
+
+        xx <- alk_lengths %>%
+          filter(
+            year     == cur_data()$year,
+            FMU      == cur_data()$FMU,
+            cod.FAO  == cur_data()$cod.FAO,
+            semester == cur_data()$semester
+          ) %>%
+          pull(length)
+
+        if(length(xx) == 0)
+          NA_real_
+        else
+          xx[which.min(abs(xx - length))]
+      }
+
+    ) %>%
+    ungroup()
+
+  #--------------------------------------------------
+  # join ALK
+  #--------------------------------------------------
+
+  dn_age <- dn2 %>%
+    left_join(
+      ALK,
+      by = c(
+        "year",
+        "FMU",
+        "cod.FAO",
+        "semester",
+        "length_alk" = "length"
+      )
+    ) %>%
+    mutate(
+      NumberCaught_age =
+        NumberCaught * prop
+    )
+
+  #--------------------------------------------------
+  # aggregate age
+  #--------------------------------------------------
+
+  dn_age <- dn_age %>%
+    group_by(
+      across(all_of(strata)),
+      Age
+    ) %>%
+    summarise(
+
+      NumberCaught =
+        sum(NumberCaught_age, na.rm = TRUE),
+
+      meanweight =
+        sum(
+          NumberCaught_age * meanweight,
+          na.rm = TRUE
+        ) /
+        sum(
+          NumberCaught_age,
+          na.rm = TRUE
+        ),
+
+      .groups = "drop"
+    )
+
+  dn_age
+}
