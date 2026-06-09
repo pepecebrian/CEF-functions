@@ -2,8 +2,8 @@
 build_alk_with_surveys <- function(
     path_H7,
     path_H5,
-    path_Survey_csv = NULL,#si le pasas un archivo de campañas, lo usa
-   # si no le pasas nada, la función sigue funcionando solo con H7 + H5
+    path_Survey_csv = NULL,If you pass it a survey file, it uses it
+   # If you don't pass it anything, the function still works with just H7 + H5
     species = c("PIL"),
     round_half_species = c("PIL", "ANE")
 ) {
