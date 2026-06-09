@@ -53,13 +53,13 @@ imputar_distriage_con_alk <- function(DISTRIAGE, ALK, ALK_filled) {
     as.data.frame()
   
   # -----------------------------------------------------------------------
-  # 4. FINAL FORMATTING FOR YVES' FUNCTIONS (RDBES STANDARDS)
+  # 4. FINAL FORMATTING ' FUNCTIONS (RDBES STANDARDS)
   # -----------------------------------------------------------------------
   # Transforming the biological data into the final 'distribution_data' 
   # format required by grp_AoL_alloc_N.
   # -----------------------------------------------------------------------
   
-  distriage_yves <- distriage_processing %>%
+  distriage_y <- distriage_processing %>%
     transmute(
       # Stratum Identifiers (Primary Keys for the join with catch data)
       year = 2024,
@@ -92,7 +92,7 @@ imputar_distriage_con_alk <- function(DISTRIAGE, ALK, ALK_filled) {
       data_source = source_final
     )
   
-  return(distriage_yves)
+  return(distriage_y)
 }
 
 # EXECUTION
