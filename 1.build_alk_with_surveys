@@ -1,0 +1,134 @@
+##################################################
+build_alk_with_surveys <- function(
+    path_H7,
+    path_H5,
+    path_Survey_csv = NULL,#si le pasas un archivo de campañas, lo usa
+   # si no le pasas nada, la función sigue funcionando solo con H7 + H5
+    species = c("PIL"),
+    round_half_species = c("PIL", "ANE")
+) {
+  
+  library(dplyr)
+  
+  # ---- base RDBES ----
+  base_result <- build_alk_from_H7_H5(
+    path_H7 = path_H7,
+    path_H5 = path_H5,
+    species = species,
+    round_half_species = round_half_species
+  )
+  
+  combined_base <- base_result$combined_wide
+  
+  combined_alk <- combined_base %>%
+    transmute(
+      source = "RDBES",
+      year = as.numeric(year),
+      area = as.character(area),
+      FMU = as.character(FMU),
+      cod.FAO = as.character(cod.FAO),
+     semester = as.numeric(semester),
+      length = as.numeric(length),
+      Age = as.numeric(Age),
+      sample_id = as.character(SAid),
+      fish_id = as.character(BVfishId),
+      DEsampScheme = as.character(DEsampScheme)
+    ) %>%
+    filter(!is.na(Age), !is.na(length))
+  
+  dominio_rdbes <- combined_alk %>%
+   # mutate(semester=ifelse(quarter %in% c(1,2),1,2)) %>% 
+    
+    group_by(year, area, FMU, cod.FAO, semester) %>%
+  dplyr::summarise(
+      num_samples = n_distinct(sample_id),
+      otholits = n_distinct(fish_id),
+      .groups = "drop"
+    )
+
+  # ---- campañas opcionales ----
+  if (!is.null(path_Survey_csv)) {
+    
+    survey_result <- prepare_survey_mac(
+      path_Survey_csv = path_Survey_csv,
+      species = species,
+      round_half_species = round_half_species
+    )
+    
+    survey_alk <- survey_result$survey_alk
+    
+    dominio_survey <- survey_result$survey_totales %>% 
+      #mutate(semester=ifelse(quarter %in% c(1,2),1,2)) %>% 
+   filter(year==2025) %>% 
+     
+      unique()
+    
+    alk_input <- bind_rows(combined_alk, survey_alk)
+    
+    dominio_totales <- bind_rows(
+      dominio_rdbes,# %>% mutate(semester = ifelse(quarter %in% c(1,2), 1, 2)),
+      dominio_survey #%>% mutate(semester = ifelse(quarter %in% c(1,2), 1, 2))
+    ) %>%
+      group_by(year, area, FMU, cod.FAO, semester) %>%
+      dplyr::summarise(
+        num_samples = sum(num_samples, na.rm = TRUE),
+        otholits    = sum(otholits, na.rm = TRUE),
+        .groups     = "drop"
+      ) 
+    
+    dominio_totales <- bind_rows(dominio_rdbes, dominio_survey) %>%
+     
+      group_by(year, area, FMU, cod.FAO, semester) %>%
+     dplyr:: summarise(
+        num_samples = sum(num_samples, na.rm = TRUE),
+        otholits = sum(otholits, na.rm = TRUE),
+        .groups = "drop"
+      )
+    
+  } else {
+    
+    survey_alk <- NULL
+    dominio_survey <- NULL
+    alk_input <- combined_alk
+    dominio_totales <- dominio_rdbes
+  }
+  
+  # ---- ALK final ----
+  ALK_grouped <- alk_input %>%  
+    #select(year, area, FMU, cod.FAO, quarter, length, Age, fish_id) %>% unique() %>% 
+    #filter(quarter==3,  FMU=="27.9.a.n" & length %in% c(29)) %>% 
+    filter(year ==2025) %>% #as.data.frame()
+    #mutate(semester=ifelse(quarter %in% c(1,2),1,2)) %>% 
+    group_by(year, area, FMU, cod.FAO, semester, Age,length) %>%
+  dplyr::  summarise(n = n()) %>%arrange(Age) %>% 
+ select(year, area, FMU, cod.FAO,  semester, length, Age,n) %>% unique() %>% 
+   # select(-BVfishId) %>% unique() %>% 
+    group_by(year,area, FMU, cod.FAO, semester, length) %>% 
+   dplyr:: mutate(suma= sum(n)) %>% 
+    #filter(quarter==3, Age==1, FMU=="27.9.a.n" & length==32) %>% 
+    left_join(
+      dominio_totales,
+      by = c("year", "area", "FMU", "cod.FAO", "semester")
+    ) %>%
+    group_by(year, area, FMU, cod.FAO,  semester,, length) %>%
+    mutate(prop = n / suma) %>%
+    ungroup() %>% arrange(Age)
+  
+  list(
+    combined_rdbes = combined_alk,
+    survey_alk = survey_alk,
+    alk_input = alk_input,
+    dominio_totales = dominio_totales,
+    ALK_grouped = ALK_grouped,
+    base_result = base_result
+  )
+}
+fao<-"MAC"
+result_final <- build_alk_with_surveys(
+  path_H7= 'H7_2025.zip'   ,
+  path_H5= 'H5_2025.zip',
+  path_Survey_csv = "CAMPAÑAS_MAC_2025.csv",
+  species = c("MAC")
+)
+
+ALK_final <- result_final$ALK_grouped
