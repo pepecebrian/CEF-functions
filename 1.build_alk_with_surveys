@@ -127,7 +127,7 @@ fao<-"MAC"
 result_final <- build_alk_with_surveys(
   path_H7= 'H7_2025.zip'   ,
   path_H5= 'H5_2025.zip',
-  path_Survey_csv = "CAMPAÑAS_MAC_2025.csv",
+  path_Survey_csv = "SURVEY_PIL_2024.csv",
   species = c("MAC")
 )
 
